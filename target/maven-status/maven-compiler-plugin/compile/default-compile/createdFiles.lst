@@ -1,0 +1,5 @@
+com/stocks/Stock.class
+com/stocks/OracleCon.class
+com/stocks/StocksREST.class
+com/stocks/StocksDao.class
+com/stocks/User.class
