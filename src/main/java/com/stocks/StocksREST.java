@@ -40,26 +40,25 @@ public class StocksREST{
 		ArrayList<Stock> stockList =dao.getStocks();
 		return stockList ;
 	}
+	
 	@GET
 	@Path("/login")
 	@Produces("application/json")  	
 	public User loginUser(@QueryParam("username") String username , @QueryParam("password") String password) throws SQLException {
 		StocksDao dao = new StocksDao();
 		User user = dao.loginUser(username, password);
-		
-		
+				
 		return user;
 	}
 	
 	@GET
 	@Path("/signup")
 	@Produces("application/json")  	
-	public User signUp(@QueryParam("username") String username , @QueryParam("password") String password) throws SQLException {
+	public int signUp(@QueryParam("username") String username , @QueryParam("password") String password) throws SQLException {
 		StocksDao dao = new StocksDao();
-		User user = dao.signUp(username, password);
+		int usercreated = dao.signUp(username, password);
 		
-		
-		return user;
+		return usercreated;
 	}
 	
 

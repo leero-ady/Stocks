@@ -1,9 +1,12 @@
 package com.stocks;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class StocksDao {
@@ -20,10 +23,12 @@ public class StocksDao {
 			 ResultSet rs = ps.executeQuery();
 			  user = new User();
 			 while (rs.next()) {
+				 if(rs.getString("username")!=null) {
 				 	user.setUsername(rs.getString("username"));
 				 	user.setPassword(rs.getString("password"));
 				 	user.setAccount_creation_date(rs.getDate("account_creation_date"));
 				 	user.setLoginTime(rs.getTimestamp("loginTime"));
+				 }
 			 }
 		}catch(Exception e) {
 			
@@ -64,10 +69,27 @@ public class StocksDao {
 	}
 	
 	
-	public void signUp(String username, String password ) {
-		
-		
-		
+	public int signUp(String username, String password ) {
+		int recordInserted=0;
+		try {
+			Connection connection = jdbcConnection.getDBConnection();	
+			Date sqlDate = new Date(Calendar.getInstance().getTimeInMillis());
+
+			 PreparedStatement ps = connection.prepareStatement("insert into usr(account_creation_date,username,lastlogintime,password) values (?, ?,?,?)");
+			 
+			 ps.setDate(1, sqlDate);//1 specifies the first parameter in the query i.e. name  
+			 ps.setString(2,username); 
+			 ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			 ps.setString(4,password);
+			 ResultSet rs = ps.executeQuery();
+			 
+			 recordInserted=1;
+
+		}catch(Exception e) {
+			e.printStackTrace(System.out);
+
+		}
+		return recordInserted;
 		
 	}
 
